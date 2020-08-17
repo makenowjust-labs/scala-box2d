@@ -1,6 +1,6 @@
-# scala-labo-template
+# scala-labo-box2d
 
-> MakeNowJust-Labo's Scala project template.
+> An [box2d-lite](https://github.com/erincatto/box2d-lite) port in Scala.
 
 ## License
 
