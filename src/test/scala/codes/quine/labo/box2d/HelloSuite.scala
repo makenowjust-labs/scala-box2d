@@ -1,4 +1,4 @@
-package codes.quine.labo.template
+package codes.quine.labo.box2d
 
 import minitest.SimpleTestSuite
 

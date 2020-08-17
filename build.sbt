@@ -23,11 +23,11 @@ lazy val root = project
   .in(file("."))
   .settings(
     organization := "codes.quine.labo",
-    name := "template",
+    name := "box2d",
     version := "0.1.0-SNAPSHOT",
-    description := "MakeNowJust-Labo's Scala project template",
+    description := "A box2d-lite port of Scala",
     console / initialCommands := """
-      |import codes.quine.labo.template._
+      |import codes.quine.labo.box2d._
       """.stripMargin,
     // Set URL mapping of scala standard API for Scaladoc.
     apiMappings ++= scalaInstance.value.libraryJars
