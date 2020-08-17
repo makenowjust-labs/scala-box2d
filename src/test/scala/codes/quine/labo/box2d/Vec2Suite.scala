@@ -58,11 +58,36 @@ object Vec2Suite extends SimpleTestSuite {
     assertEquals(v.length, Math.sqrt(5).toFloat)
   }
 
+  test("Vec2#dot") {
+    val v1 = Vec2(1, 2)
+    val v2 = Vec2(3, 4)
+    assertEquals(v1 dot v2, 11)
+  }
+
+  test("Vec2#cross") {
+    val v1 = Vec2(1, 2)
+    val v2 = Vec2(3, 4)
+    assertEquals(v1 cross v2, -2)
+  }
+
+  test("Vec2#+") {
+    val v1 = Vec2(1, 2)
+    val v2 = Vec2(3, 4)
+    assertEquals(v1 + v2, Vec2(4, 6))
+  }
+
+  test("Vec2#-") {
+    val v1 = Vec2(1, 2)
+    val v2 = Vec2(3, 4)
+    assertEquals(v1 - v2, Vec2(-2, -2))
+  }
+
   test("Vec2#equals") {
     val v1 = Vec2(1, 2)
     val v2 = Vec2(1, 2)
     val v3 = Vec2(3, 4)
     assert(v1 == v2)
+    assert(v1 != 1)
     assert(v1 != v3)
   }
 

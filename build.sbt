@@ -28,6 +28,7 @@ lazy val root = project
     description := "A box2d-lite port in Scala",
     console / initialCommands := """
       |import codes.quine.labo.box2d._
+      |import codes.quine.labo.box2d.MathUtil._
       """.stripMargin,
     // Set URL mapping of scala standard API for Scaladoc.
     apiMappings ++= scalaInstance.value.libraryJars

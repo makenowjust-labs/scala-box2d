@@ -25,6 +25,14 @@ final class Vec2(var x: Float, var y: Float) {
 
   def length: Float = Math.hypot(x, y).toFloat
 
+  def dot(v: Vec2): Float = x * v.x + y * v.y
+
+  def cross(v: Vec2): Float = x * v.y - y * v.x
+
+  def +(v: Vec2): Vec2 = Vec2(x + v.x, y + v.y)
+
+  def -(v: Vec2): Vec2 = Vec2(x - v.x, y - v.y)
+
   override def equals(obj: Any): Boolean =
     obj match {
       case obj: Vec2 => x == obj.x && y == obj.y
