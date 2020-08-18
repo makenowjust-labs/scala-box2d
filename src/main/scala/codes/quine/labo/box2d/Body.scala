@@ -1,6 +1,6 @@
 package codes.quine.labo.box2d
 
-final class Body {
+final class Body extends Ordered[Body] {
   val position: Vec2 = Vec2(0.0f, 0.0f)
   var rotation: Float = 0.0f
 
@@ -43,4 +43,6 @@ final class Body {
       invI = 0.0f
     }
   }
+
+  def compare(that: Body): Int = System.identityHashCode(this) compare System.identityHashCode(that)
 }

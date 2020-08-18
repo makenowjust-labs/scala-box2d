@@ -17,6 +17,8 @@ object MathUtil {
 
   def abs(m: Mat22): Mat22 = Mat22(abs(m.col1), abs(m.col2))
 
+  def sqrt(a: Float): Float = Math.sqrt(a).toFloat
+
   def sign(a: Float): Float = if (a < 0.0f) -1.0f else 1.0f
 
   def min(a: Float, b: Float): Float = Math.min(a, b)
