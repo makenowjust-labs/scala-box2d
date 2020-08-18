@@ -5,7 +5,7 @@ import scala.util.Random
 object MathUtil {
   final val PI: Float = 3.14159265358979323846264f
 
-  implicit final class FloatOps(val a: Float) extends AnyVal {
+  implicit final class FloatOps(private val a: Float) extends AnyVal {
     def cross(v: Vec2): Vec2 = Vec2(-a * v.y, a * v.x)
 
     def *(v: Vec2): Vec2 = Vec2(a * v.x, a * v.y)
