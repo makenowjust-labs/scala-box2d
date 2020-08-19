@@ -2,6 +2,8 @@
 
 > An [box2d-lite](https://github.com/erincatto/box2d-lite) port in Scala.
 
+![demo](https://github.com/MakeNowJust-Labo/scala-labo-box2d/wiki/image/demo.gif)
+
 ## License
 
 (The original license is [MIT](https://github.com/erincatto/box2d-lite/blob/master/LICENSE).)
