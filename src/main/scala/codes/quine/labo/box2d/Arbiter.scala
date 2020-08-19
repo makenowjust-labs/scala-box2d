@@ -7,7 +7,7 @@ import Arbiter._
 import MathUtil.FloatOps
 
 final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[Contact]) {
-  var friction: Float = MathUtil.sqrt(body1.friction * body2.friction)
+  val friction: Float = MathUtil.sqrt(body1.friction * body2.friction)
 
   def update(newContacts: IndexedSeq[Contact]): Unit = {
     val mergedContacts = mutable.Buffer.empty[Contact]
@@ -19,11 +19,9 @@ final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[C
           if (World.warmStarting) {
             c.Pn = cOld.Pn
             c.Pt = cOld.Pt
-            c.Pnb = cOld.Pnb
           } else {
             c.Pn = 0.0f
             c.Pt = 0.0f
-            c.Pnb = 0.0f
           }
           mergedContacts.append(c)
         case None =>
@@ -35,39 +33,39 @@ final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[C
   }
 
   def preStep(invDt: Float): Unit = {
-    val ALLOWED_PENETRATION = 0.01f
-    val BIAS_FACTOR = if (World.positionCorrection) 0.2f else 0.0f
+    val allowedPenetration = 0.01f
+    val biasFactor = if (World.positionCorrection) 0.2f else 0.0f
 
     for (c <- contacts) {
-      val r1 = c.position - body1.position
-      val r2 = c.position - body2.position
+      c.r1 = c.position - body1.position
+      c.r2 = c.position - body2.position
 
       // Precompute normal mass, tangent mass, and bias.
 
-      val rn1 = r1 dot c.normal
-      val rn2 = r2 dot c.normal
+      val rn1 = c.r1 dot c.normal
+      val rn2 = c.r2 dot c.normal
       val kNormal =
-        body1.invMass + body2.invMass + body1.invI * ((r1 dot r1) - rn1 * rn1) + body2.invI * ((r2 dot r2) - rn2 * rn2)
+        body1.invMass + body2.invMass + body1.invI * ((c.r1 dot c.r1) - rn1 * rn1) + body2.invI * ((c.r2 dot c.r2) - rn2 * rn2)
       c.massNormal = 1.0f / kNormal
 
       val tangent = c.normal cross 1.0f
-      val rt1 = r1 dot tangent
-      val rt2 = r2 dot tangent
+      val rt1 = c.r1 dot tangent
+      val rt2 = c.r2 dot tangent
       val kTangent =
-        body1.invMass + body2.invMass + body1.invI * ((r1 dot r1) - rt1 * rt1) + body2.invI * ((r2 dot r2) - rt2 * rt2)
+        body1.invMass + body2.invMass + body1.invI * ((c.r1 dot c.r1) - rt1 * rt1) + body2.invI * ((c.r2 dot c.r2) - rt2 * rt2)
       c.massTangent = 1.0f / kTangent
 
-      c.bias = -BIAS_FACTOR * invDt * MathUtil.min(0.0f, c.separation + ALLOWED_PENETRATION)
+      c.bias = -biasFactor * invDt * MathUtil.min(0.0f, c.separation + allowedPenetration)
 
       if (World.accumulateImpulses) {
         // Apply normal + friction impulse
         val P = c.Pn * c.normal + c.Pt * tangent
 
         body1.velocity -= body1.invMass * P
-        body1.angularVelocity -= body1.invMass * (r1 cross P)
+        body1.angularVelocity -= body1.invI * (c.r1 cross P)
 
         body2.velocity += body2.invMass * P
-        body2.angularVelocity += body2.invMass * (r1 cross P)
+        body2.angularVelocity += body2.invI * (c.r2 cross P)
       }
     }
   }
@@ -77,14 +75,11 @@ final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[C
     val b2 = body2
 
     for (c <- contacts) {
-      c.r1 = c.position - b1.position
-      c.r2 = c.position - b2.position
-
       // Relative velocity at contact
       var dv = b2.velocity + (b2.angularVelocity cross c.r2) - b1.velocity - (b1.angularVelocity cross c.r1)
 
       // Compute normal impulse
-      val vn = dv cross c.normal
+      val vn = dv dot c.normal
 
       var dPn = c.massNormal * (-vn + c.bias)
 
@@ -117,6 +112,7 @@ final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[C
         // Compute friction impulse
         val maxPt = friction * c.Pn
 
+        // Clamp friction
         val oldTangentImpluse = c.Pt
         c.Pt = MathUtil.clamp(oldTangentImpluse + dPt, -maxPt, maxPt)
         dPt = c.Pt - oldTangentImpluse
@@ -154,7 +150,7 @@ object Arbiter {
         case 2 => EDGE2
         case 3 => EDGE3
         case 4 => EDGE4
-        case _ => throw new IllegalArgumentException("unknown edge numbers")
+        case _ => throw new IllegalArgumentException(s"unknown edge numbers: $num")
       }
   }
 
@@ -165,20 +161,23 @@ object Arbiter {
   case object EDGE4 extends EdgeNumber(4)
 
   final class FeaturePair(val value: Int) extends AnyVal {
-    def inEdge1: EdgeNumber = EdgeNumber(((value >> 6) & 0xff).toByte)
-    def outEdge1: EdgeNumber = EdgeNumber(((value >> 4) & 0xff).toByte)
-    def inEdge2: EdgeNumber = EdgeNumber(((value >> 2) & 0xff).toByte)
+    def inEdge1: EdgeNumber = EdgeNumber(((value >> 24) & 0xff).toByte)
+    def outEdge1: EdgeNumber = EdgeNumber(((value >> 16) & 0xff).toByte)
+    def inEdge2: EdgeNumber = EdgeNumber(((value >> 8) & 0xff).toByte)
     def outEdge2: EdgeNumber = EdgeNumber((value & 0xff).toByte)
+
+    override def toString: String = f"FeaturePair($value%08x)"
   }
 
   object FeaturePair {
-    def apply(value: Int): FeaturePair = new FeaturePair(value)
+    def apply(value: Int): FeaturePair =
+      new FeaturePair(value)
 
     def apply(i2: EdgeNumber, o2: EdgeNumber): FeaturePair =
       FeaturePair(NO_EDGE, NO_EDGE, i2, o2)
 
     def apply(i1: EdgeNumber, o1: EdgeNumber, i2: EdgeNumber, o2: EdgeNumber): FeaturePair =
-      new FeaturePair(i1.num << 6 | o1.num << 4 | i2.num << 2 | o2.num)
+      FeaturePair(i1.num << 24 | o1.num << 16 | i2.num << 8 | o2.num)
 
     def flip(fp: FeaturePair): FeaturePair =
       FeaturePair(fp.inEdge2, fp.outEdge2, fp.inEdge1, fp.outEdge1)
@@ -187,7 +186,6 @@ object Arbiter {
   final case class Contact(separation: Float, normal: Vec2, position: Vec2, feature: FeaturePair) {
     var Pn: Float = 0.0f
     var Pt: Float = 0.0f
-    var Pnb: Float = 0.0f
 
     var r1: Vec2 = Vec2(0.0f, 0.0f)
     var r2: Vec2 = Vec2(0.0f, 0.0f)
@@ -197,7 +195,7 @@ object Arbiter {
     var bias: Float = 0.0f
   }
 
-  final class ArbiterKey(val body1: Body, val body2: Body) {
+  final case class ArbiterKey(val body1: Body, val body2: Body) {
     def <(that: ArbiterKey): Boolean =
       if (body1 < that.body1) true
       else if (body1 == that.body1 && body2 < that.body2) true

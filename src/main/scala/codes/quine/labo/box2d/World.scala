@@ -57,7 +57,7 @@ final case class World(val gravity: Vec2, val iterations: Int) {
     for (joint <- joints) joint.preStep(invDt)
 
     // Perform iterations
-    for (_ <- 1 until iterations) {
+    for (_ <- 0 until iterations) {
       for (arb <- arbiters.values) arb.applyImpluse()
       for (joint <- joints) joint.applyImpluse()
     }
@@ -74,7 +74,7 @@ final case class World(val gravity: Vec2, val iterations: Int) {
 }
 
 object World {
+  var accumulateImpulses: Boolean = true
   var positionCorrection: Boolean = true
   var warmStarting: Boolean = true
-  var accumulateImpulses: Boolean = true
 }

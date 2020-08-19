@@ -21,9 +21,9 @@ object MathUtil {
 
   def sign(a: Float): Float = if (a < 0.0f) -1.0f else 1.0f
 
-  def min(a: Float, b: Float): Float = Math.min(a, b)
+  def min(a: Float, b: Float): Float = if (a < b) a else b
 
-  def max(a: Float, b: Float): Float = Math.max(a, b)
+  def max(a: Float, b: Float): Float = if (a > b) a else b
 
   def clamp(a: Float, low: Float, high: Float): Float = max(low, min(a, high))
 

@@ -48,10 +48,10 @@ final class Joint {
     r2 = rot2 * localAnchor2
 
     val K1 = Mat22(
-      body1.invMass * body2.invMass,
+      body1.invMass + body2.invMass,
       0.0f,
       0.0f,
-      body1.invMass * body2.invMass
+      body1.invMass + body2.invMass
     )
     val K2 = Mat22(
       body1.invI * r1.y * r1.y,
@@ -61,11 +61,11 @@ final class Joint {
     )
     val K3 = Mat22(
       body2.invI * r2.y * r2.y,
-      -body1.invI * r2.x * r2.y,
       -body2.invI * r2.x * r2.y,
-      body1.invI * r2.x * r2.x
+      -body2.invI * r2.x * r2.y,
+      body2.invI * r2.x * r2.x
     )
-    val K = K1 * K2 * K3
+    val K = K1 + K2 + K3
     K.col1.x += softness
     K.col2.y += softness
     M = K.invert
@@ -92,7 +92,7 @@ final class Joint {
   }
 
   def applyImpluse(): Unit = {
-    val dv = body2.velocity + (body2.angularVelocity cross r2) - body1.velocity - (body2.angularVelocity cross r1)
+    val dv = body2.velocity + (body2.angularVelocity cross r2) - body1.velocity - (body1.angularVelocity cross r1)
     val impluse = M * (bias - dv - softness * P)
 
     body1.velocity -= body1.invMass * impluse

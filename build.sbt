@@ -30,6 +30,8 @@ lazy val root = project
       |import codes.quine.labo.box2d._
       |import codes.quine.labo.box2d.MathUtil._
       """.stripMargin,
+    run / mainClass := Some("codes.quine.labo.box2d.demo.Demo"),
+    run / fork := true,
     // Set URL mapping of scala standard API for Scaladoc.
     apiMappings ++= scalaInstance.value.libraryJars
       .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))

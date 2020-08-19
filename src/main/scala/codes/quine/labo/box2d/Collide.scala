@@ -37,13 +37,17 @@ object Collide {
   ): IndexedSeq[ClipVertex] = {
     val vOut = IndexedSeq.newBuilder[ClipVertex]
 
+    // Calculate the distance of end points to the line
     val distance0 = (normal dot vIn(0).v) - offset
     val distance1 = (normal dot vIn(1).v) - offset
 
+    // If the points are behind the plane
     if (distance0 <= 0.0f) vOut.addOne(vIn(0))
     if (distance1 <= 0.0f) vOut.addOne(vIn(1))
 
+    // If the points are on different sides of the plane
     if (distance0 * distance1 < 0.0f) {
+      // Find intersection point of edge and plane
       val interp = distance0 / (distance0 - distance1)
       val v = vIn(0).v + interp * (vIn(1).v - vIn(0).v)
       val fp =
@@ -56,6 +60,8 @@ object Collide {
   }
 
   def computeIncidentEdge(h: Vec2, pos: Vec2, rot: Mat22, normal: Vec2): IndexedSeq[ClipVertex] = {
+    // The normal is from the reference box. Convert it
+    // to the incident boxe's frame and flip sign.
     val rotT = rot.transpose
     val n = -(rotT * normal)
     val nAbs = MathUtil.abs(n)
@@ -92,7 +98,7 @@ object Collide {
     val dA = rotAT * dp
     val dB = rotBT * dp
 
-    val C = rotA * rotB
+    val C = rotAT * rotB
     val absC = MathUtil.abs(C)
     val absCT = absC.transpose
 
@@ -161,8 +167,8 @@ object Collide {
         val front = (posB dot frontNormal) + hB.x
         val sideNormal = rotB.col2
         val side = posB dot sideNormal
-        val negSide = -side * hB.y
-        val posSide = side * hB.y
+        val negSide = -side + hB.y
+        val posSide = side + hB.y
         val negEdge = EDGE3
         val posEdge = EDGE1
         val incidentEdge = computeIncidentEdge(hA, posA, rotA, frontNormal)
@@ -172,8 +178,8 @@ object Collide {
         val front = (posB dot frontNormal) + hB.y
         val sideNormal = rotB.col1
         val side = posB dot sideNormal
-        val negSide = -side * hB.x
-        val posSide = side * hB.x
+        val negSide = -side + hB.x
+        val posSide = side + hB.x
         val negEdge = EDGE2
         val posEdge = EDGE4
         val incidentEdge = computeIncidentEdge(hA, posA, rotA, frontNormal)
@@ -193,8 +199,9 @@ object Collide {
     // Now clipPoints2 contains the clipping points.
     // Due to roundoff, it is possible that clipping removes all points.
     clipPoints2
-      .filter(c => (frontNormal dot c.v) - front <= 0.0f)
+      .filter(c => (frontNormal dot c.v) - front <= 0)
       .map { c =>
+        val separation = (frontNormal dot c.v) - front
         Contact(
           separation,
           normal,
