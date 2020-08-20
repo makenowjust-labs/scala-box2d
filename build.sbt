@@ -55,7 +55,7 @@ lazy val demo = project
     run / fork := true,
     // Dependencies:
     libraryDependencies += "org.scalafx" %% "scalafx" % "14-R19",
-    libraryDependencies ++= javaFXModules.map(m => "org.openjfx" % s"javafx-$m" % "14.0.1" classifier osName),
+    libraryDependencies ++= javaFXModules.map(m => "org.openjfx" % s"javafx-$m" % "14.0.1" classifier osName)
   )
   .dependsOn(box2d)
 
