@@ -22,9 +22,9 @@ ThisBuild / scalafixDependencies += "com.github.vovapolu" %% "scaluzzi" % "0.1.1
 lazy val root = project
   .in(file("."))
   .settings(publish / skip := true)
-  .aggregate(box2d, `box2d-demo`)
+  .aggregate(box2dJVM, box2dJS, box2dDemoJVM, box2dDemoJS)
 
-lazy val box2d = project
+lazy val box2d = crossProject(JVMPlatform, JSPlatform)
   .in(file("modules/box2d"))
   .settings(
     organization := "codes.quine.labo",
@@ -40,13 +40,23 @@ lazy val box2d = project
     apiMappings ++= scalaInstance.value.libraryJars
       .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
-      .toMap,
-    // Settings for test:
+      .toMap
+  )
+  .jvmSettings(
+    // Settings for test on JVM:
     libraryDependencies += "io.monix" %% "minitest" % "2.8.2" % Test,
     testFrameworks += new TestFramework("minitest.runner.Framework")
   )
+  .jsSettings(
+    // Settings for test on JS:
+    libraryDependencies += "io.monix" %%% "minitest" % "2.8.2" % Test,
+    testFrameworks += new TestFramework("minitest.runner.Framework")
+  )
 
-lazy val `box2d-demo` = project
+lazy val box2dJVM = box2d.jvm
+lazy val box2dJS = box2d.js
+
+lazy val box2dDemo = crossProject(JVMPlatform, JSPlatform)
   .in(file("modules/box2d-demo"))
   .settings(
     name := "box2d-demo",
@@ -58,6 +68,9 @@ lazy val `box2d-demo` = project
     libraryDependencies ++= javaFXModules.map(m => "org.openjfx" % s"javafx-$m" % "14.0.1" classifier osName)
   )
   .dependsOn(box2d)
+
+lazy val box2dDemoJVM = box2dDemo.jvm
+lazy val box2dDemoJS = box2dDemo.js
 
 lazy val osName = System.getProperty("os.name") match {
   case n if n.startsWith("Linux")   => "linux"
