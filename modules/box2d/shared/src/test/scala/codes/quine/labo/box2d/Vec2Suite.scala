@@ -92,7 +92,7 @@ object Vec2Suite extends SimpleTestSuite {
   }
 
   test("Vec2#toString") {
-    val v = Vec2(1, 2)
-    assertEquals(v.toString, "Vec2(1.0, 2.0)")
+    val v = Vec2(0.5f, 1.5f)
+    assertEquals(v.toString, "Vec2(0.5, 1.5)")
   }
 }
