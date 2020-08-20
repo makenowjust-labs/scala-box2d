@@ -1,6 +1,6 @@
 # scala-labo-box2d
 
-> An [box2d-lite](https://github.com/erincatto/box2d-lite) port in Scala.
+> A [box2d-lite](https://github.com/erincatto/box2d-lite) port in Scala.
 
 ![demo](https://github.com/MakeNowJust-Labo/scala-labo-box2d/wiki/image/demo.gif)
 
