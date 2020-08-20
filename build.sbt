@@ -21,8 +21,8 @@ ThisBuild / scalafixDependencies += "com.github.vovapolu" %% "scaluzzi" % "0.1.1
 
 lazy val root = project
   .in(file("."))
-  .settings(publishTo := None)
-  .aggregate(box2d, demo)
+  .settings(publish / skip := true)
+  .aggregate(box2d, `box2d-demo`)
 
 lazy val box2d = project
   .in(file("modules/box2d"))
@@ -46,11 +46,11 @@ lazy val box2d = project
     testFrameworks += new TestFramework("minitest.runner.Framework")
   )
 
-lazy val demo = project
+lazy val `box2d-demo` = project
   .in(file("modules/box2d-demo"))
   .settings(
     name := "box2d-demo",
-    publishTo := None,
+    publish / skip := true,
     run / mainClass := Some("codes.quine.labo.box2d.demo.Demo"),
     run / fork := true,
     // Dependencies:
@@ -66,4 +66,4 @@ lazy val osName = System.getProperty("os.name") match {
   case _                            => throw new Exception("Unknown platform!")
 }
 
-lazy val javaFXModules = Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
+lazy val javaFXModules = Seq("base", "controls", "graphics", "media")
