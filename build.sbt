@@ -29,7 +29,7 @@ lazy val box2d = project
   .settings(
     organization := "codes.quine.labo",
     name := "box2d",
-    version := "0.1.0-SNAPSHOT",
+    version := "0.1.0",
     description := "A box2d-lite port in Scala",
     console / initialCommands := """
       |import codes.quine.labo.box2d._
