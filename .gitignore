@@ -29,3 +29,4 @@ project/plugins/project/
 metals.sbt
 
 
+docs/js/*
