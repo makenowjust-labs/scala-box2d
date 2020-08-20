@@ -14,6 +14,7 @@ jobs:
       - name: Build
         run: |
           sbt box2dDemoJS/fullOptJS
+          mkdir -p docs/js
           cp modules/box2d-demo/js/target/scala-2.13/box2d-demo-opt.js* docs/js/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
