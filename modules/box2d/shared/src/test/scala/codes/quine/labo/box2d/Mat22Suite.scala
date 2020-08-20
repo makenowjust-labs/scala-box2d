@@ -58,7 +58,7 @@ object Mat22Suite extends SimpleTestSuite {
   }
 
   test("Mat22#toString") {
-    val m = Mat22(1, 2, 3, 4)
-    assertEquals(m.toString, "Mat22(1.0, 2.0, 3.0, 4.0)")
+    val m = Mat22(0.5f, 1.5f, 2.5f, 3.5f)
+    assertEquals(m.toString, "Mat22(0.5, 1.5, 2.5, 3.5)")
   }
 }
