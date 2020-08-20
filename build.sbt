@@ -61,11 +61,18 @@ lazy val box2dDemo = crossProject(JVMPlatform, JSPlatform)
   .settings(
     name := "box2d-demo",
     publish / skip := true,
-    run / mainClass := Some("codes.quine.labo.box2d.demo.Demo"),
+    mainClass := Some("codes.quine.labo.box2d.demo.DemoApp"),
+  )
+  .jvmSettings(
     run / fork := true,
-    // Dependencies:
+    // Dependencies on JVM:
     libraryDependencies += "org.scalafx" %% "scalafx" % "14-R19",
     libraryDependencies ++= javaFXModules.map(m => "org.openjfx" % s"javafx-$m" % "14.0.1" classifier osName)
+  )
+  .jsSettings(
+    scalaJSUseMainModuleInitializer := true,
+    // Dependencies on JS:
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.0.0"
   )
   .dependsOn(box2d)
 
