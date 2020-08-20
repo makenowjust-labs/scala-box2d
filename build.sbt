@@ -61,7 +61,7 @@ lazy val box2dDemo = crossProject(JVMPlatform, JSPlatform)
   .settings(
     name := "box2d-demo",
     publish / skip := true,
-    mainClass := Some("codes.quine.labo.box2d.demo.DemoApp"),
+    mainClass := Some("codes.quine.labo.box2d.demo.DemoApp")
   )
   .jvmSettings(
     run / fork := true,
