@@ -30,6 +30,7 @@ lazy val root = project
       |import codes.quine.labo.box2d._
       |import codes.quine.labo.box2d.MathUtil._
       """.stripMargin,
+    Compile / console / scalacOptions -= "-Wunused",
     run / mainClass := Some("codes.quine.labo.box2d.demo.Demo"),
     run / fork := true,
     // Set URL mapping of scala standard API for Scaladoc.
