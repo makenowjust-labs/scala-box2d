@@ -120,20 +120,19 @@ object DemoApp {
   def main(args: Array[String]): Unit = {
     demo1()
 
-    window.setInterval(
-      { () =>
-        world.step(timeStep)
+    lazy val callback: Double => _ = { _: Double =>
+      world.step(timeStep)
 
-        gc.fillStyle = "rgb(0, 0, 0)"
-        gc.fillRect(0, 0, width.toDouble, height.toDouble)
-        for (b <- world.bodies) {
-          drawBody(b)
-        }
-        for (j <- world.joints) {
-          drawJoint(j)
-        }
-      },
-      1000.0 * timeStep
-    )
+      gc.fillStyle = "rgb(0, 0, 0)"
+      gc.fillRect(0, 0, width.toDouble, height.toDouble)
+      for (b <- world.bodies) {
+        drawBody(b)
+      }
+      for (j <- world.joints) {
+        drawJoint(j)
+      }
+      window.requestAnimationFrame(callback)
+    }
+    window.requestAnimationFrame(callback)
   }
 }
