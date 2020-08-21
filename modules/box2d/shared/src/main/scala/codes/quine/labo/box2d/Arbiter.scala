@@ -166,15 +166,12 @@ object Arbiter {
     def inEdge2: EdgeNumber = EdgeNumber(((value >> 8) & 0xff).toByte)
     def outEdge2: EdgeNumber = EdgeNumber((value & 0xff).toByte)
 
-    override def toString: String = f"FeaturePair($value%08x)"
+    override def toString: String = f"FeaturePair(0x$value%08x)"
   }
 
   object FeaturePair {
     def apply(value: Int): FeaturePair =
       new FeaturePair(value)
-
-    def apply(i2: EdgeNumber, o2: EdgeNumber): FeaturePair =
-      FeaturePair(NO_EDGE, NO_EDGE, i2, o2)
 
     def apply(i1: EdgeNumber, o1: EdgeNumber, i2: EdgeNumber, o2: EdgeNumber): FeaturePair =
       FeaturePair(i1.num << 24 | o1.num << 16 | i2.num << 8 | o2.num)

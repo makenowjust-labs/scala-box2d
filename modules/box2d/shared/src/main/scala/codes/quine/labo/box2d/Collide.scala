@@ -26,7 +26,7 @@ object Collide {
 
   object ClipVertex {
     def apply(v: Vec2, i2: EdgeNumber, o2: EdgeNumber): ClipVertex =
-      ClipVertex(v, FeaturePair(i2, o2))
+      ClipVertex(v, FeaturePair(NO_EDGE, NO_EDGE, i2, o2))
   }
 
   def clipSegmentToLine(

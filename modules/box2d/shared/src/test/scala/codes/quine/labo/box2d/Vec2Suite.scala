@@ -68,6 +68,7 @@ object Vec2Suite extends SimpleTestSuite {
     val v1 = Vec2(1, 2)
     val v2 = Vec2(3, 4)
     assertEquals(v1 cross v2, -2)
+    assertEquals(v1 cross 1.0f, Vec2(2, -1))
   }
 
   test("Vec2#+") {

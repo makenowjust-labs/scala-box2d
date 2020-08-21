@@ -2,7 +2,7 @@ package codes.quine.labo.box2d
 
 import minitest.SimpleTestSuite
 
-import MathUtil._
+import MathUtil.FloatOps
 
 object MathUtilSuite extends SimpleTestSuite {
   test("FloatOps#cross") {
@@ -18,6 +18,10 @@ object MathUtilSuite extends SimpleTestSuite {
     assertEquals(MathUtil.abs(-1), 1)
     assertEquals(MathUtil.abs(Vec2(1, -1)), Vec2(1, 1))
     assertEquals(MathUtil.abs(Mat22(1, 2, -3, -4)), Mat22(1, 2, 3, 4))
+  }
+
+  test("MathUtil.sqrt") {
+    assertEquals(MathUtil.sqrt(MathUtil.PI), Math.sqrt(MathUtil.PI).toFloat)
   }
 
   test("MathUtil.sign") {

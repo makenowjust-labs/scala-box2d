@@ -56,4 +56,16 @@ object BodySuite extends SimpleTestSuite {
     assertEquals(body.I, 3 * 5 / 12.0f)
     assertEquals(body.invI, 12.0f / (3 * 5))
   }
+
+  test("Body#compareTo") {
+    val body1 = new Body
+    val body2 = new Body
+    val hash1 = System.identityHashCode(body1)
+    val hash2 = System.identityHashCode(body2)
+    assertEquals(body1.compareTo(body2), hash1.compareTo(hash2))
+    assertEquals(body1 < body2, hash1 < hash2)
+    assertEquals(body1 > body2, hash1 > hash2)
+    assertEquals(body1 <= body2, hash1 <= hash2)
+    assertEquals(body1 >= body2, hash1 >= hash2)
+  }
 }
