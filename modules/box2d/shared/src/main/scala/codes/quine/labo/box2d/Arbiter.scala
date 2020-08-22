@@ -6,6 +6,7 @@ import scala.collection.mutable
 import Arbiter._
 import MathUtil.FloatOps
 
+/** Arbiter solves contacts between pair of bodirs. */
 final class Arbiter private (val body1: Body, val body2: Body, var contacts: IndexedSeq[Contact]) {
   private[this] val friction: Float = MathUtil.sqrt(body1.friction * body2.friction)
 
@@ -134,6 +135,7 @@ final class Arbiter private (val body1: Body, val body2: Body, var contacts: Ind
 }
 
 object Arbiter {
+  /** Constructs an arbiter for `b1` and `b2`. */
   def apply(b1: Body, b2: Body): Arbiter = {
     val (body1, body2) = if (b1 < b2) (b1, b2) else (b2, b1)
     val contacts = Collide.detect(body1, body2)

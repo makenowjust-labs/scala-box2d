@@ -5,18 +5,25 @@ import scala.collection.mutable
 import Arbiter._
 import MathUtil.FloatOps
 
+/** World is a world for physics simulation. */
 final class World private (var gravity: Vec2, var iterations: Int) {
   private val _bodies: mutable.Buffer[Body] = mutable.Buffer.empty
   private val _joints: mutable.Buffer[Joint] = mutable.Buffer.empty
   private val _arbiters: mutable.Map[ArbiterKey, Arbiter] = mutable.Map.empty
 
+  /** A list of rigid bodies on this world. */
   def bodies: Seq[Body] = _bodies.toSeq
+  /** A list of joints on this world. */
   def joints: Seq[Joint] = _joints.toSeq
+  /** A map from bodies pair to arbiters working on this world and the bodies. */
   def arbiters: Map[ArbiterKey, Arbiter] = _arbiters.toMap
 
+  /** Adds the given rigid body to this world. */
   def add(body: Body): Unit = _bodies.append(body)
+  /** Adds the given joint to this world. */
   def add(joint: Joint): Unit = _joints.append(joint)
 
+  /** Clear rigid bodies and joints from this world. */
   def clear(): Unit = {
     _bodies.clear()
     _joints.clear()
@@ -43,6 +50,7 @@ final class World private (var gravity: Vec2, var iterations: Int) {
     }
   }
 
+  /** Run simulation step. */
   def step(dt: Float): Unit = {
     val invDt = if (dt > 0.0f) 1.0f / dt else 0.0f
 

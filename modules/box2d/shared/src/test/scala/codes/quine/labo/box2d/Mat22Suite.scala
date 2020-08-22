@@ -9,15 +9,6 @@ object Mat22Suite extends SimpleTestSuite {
     assert(m1 == m2)
   }
 
-  test("Mat22.unapply") {
-    val m = Mat22(1, 2, 3, 4)
-    val Mat22(a, b, c, d) = m
-    assertEquals(a, 1)
-    assertEquals(b, 2)
-    assertEquals(c, 3)
-    assertEquals(d, 4)
-  }
-
   test("Mat22.rotation") {
     val m = Mat22.rotation(0)
     assertEquals(m, Mat22(1, 0, 0, 1))

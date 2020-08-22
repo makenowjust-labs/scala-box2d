@@ -2,8 +2,8 @@ package codes.quine.labo.box2d
 
 import MathUtil._
 
+/** Joint is a constraint between a pair of bodies. */
 final class Joint private {
-
   private[this] var _localAnchor1: Vec2 = Vec2(0.0f, 0.0f)
   private[this] var _localAnchor2: Vec2 = Vec2(0.0f, 0.0f)
 
@@ -109,6 +109,7 @@ final class Joint private {
 }
 
 object Joint {
+  /** Constructs a joint with the given parameters. */
   def apply(body1: Body, body2: Body, anchor: Vec2, softness: Float = 0.0f, biasFactor: Float = 0.2f): Joint = {
     val joint = new Joint
     joint.set(body1, body2, anchor)

@@ -36,11 +36,21 @@ lazy val box2d = crossProject(JVMPlatform, JSPlatform)
       |import codes.quine.labo.box2d.MathUtil._
       """.stripMargin,
     Compile / console / scalacOptions -= "-Wunused",
+    // Scaladoc options:
     // Set URL mapping of scala standard API for Scaladoc.
     apiMappings ++= scalaInstance.value.libraryJars
       .filter(file => file.getName.startsWith("scala-library") && file.getName.endsWith(".jar"))
       .map(_ -> url(s"http://www.scala-lang.org/api/${scalaVersion.value}/"))
-      .toMap
+      .toMap,
+    Compile / doc / scalacOptions ++= Seq(
+      "-doc-title",
+      "scala-labo-box2d",
+      "-doc-version",
+      if (version.value.endsWith("-SNAPSHOT"))
+        sys.process.Process("git rev-parse --short HEAD").!!.strip
+      else version.value,
+      "–doc-source-url",
+    )
   )
   .jvmSettings(
     // Settings for test on JVM:
