@@ -11,17 +11,17 @@ final class Body private extends Ordered[Body] {
   var torque: Float = 0.0f
   var friction: Float = 0.2f
 
-  var _width: Vec2 = Vec2(1.0f, 1.0f)
-  var _mass: Float = Float.MaxValue
-  var _invMass: Float = 0.0f
-  var _I: Float = Float.MaxValue
-  var _invI: Float = 0.0f
+  private[this] var _width: Vec2 = Vec2(1.0f, 1.0f)
+  private[this] var _mass: Float = Float.MaxValue
+  private[this] var _invMass: Float = 0.0f
+  private[this] var _inertia: Float = Float.MaxValue
+  private[this] var _invInertia: Float = 0.0f
 
   def width: Vec2 = _width
   def mass: Float = _mass
-  def invMass: Float = _invMass
-  def I: Float = _I
-  def invI: Float = _invI
+  private[box2d] def invMass: Float = _invMass
+  def inertia: Float = _inertia
+  private[box2d] def invInertia: Float = _invInertia
 
   def addForce(f: Vec2): Unit = {
     force += f
@@ -41,12 +41,12 @@ final class Body private extends Ordered[Body] {
 
     if (mass < Float.MaxValue) {
       _invMass = 1.0f / mass
-      _I = mass * (width.x * width.x + width.y * width.y) / 12.0f
-      _invI = 1.0f / I
+      _inertia = mass * (width.x * width.x + width.y * width.y) / 12.0f
+      _invInertia = 1.0f / inertia
     } else {
       _invMass = 0.0f
-      _I = Float.MaxValue
-      _invI = 0.0f
+      _inertia = Float.MaxValue
+      _invInertia = 0.0f
     }
   }
 

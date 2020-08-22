@@ -13,14 +13,14 @@ object BodySuite extends SimpleTestSuite {
     assertEquals(body.friction, 0.2f)
   }
 
-  test("new Body") {
+  test("Body.apply") {
     val body = Body()
     assertInitialBody(body)
     assertEquals(body.width, Vec2(1, 1))
     assertEquals(body.mass, Float.MaxValue)
     assertEquals(body.invMass, 0)
-    assertEquals(body.I, Float.MaxValue)
-    assertEquals(body.invI, 0)
+    assertEquals(body.inertia, Float.MaxValue)
+    assertEquals(body.invInertia, 0)
   }
 
   test("Body#addForce") {
@@ -46,15 +46,15 @@ object BodySuite extends SimpleTestSuite {
     assertEquals(body.width, Vec2(1, 1))
     assertEquals(body.mass, Float.MaxValue)
     assertEquals(body.invMass, 0)
-    assertEquals(body.I, Float.MaxValue)
-    assertEquals(body.invI, 0)
+    assertEquals(body.inertia, Float.MaxValue)
+    assertEquals(body.invInertia, 0)
 
     body.set(Vec2(1, 2), 3)
     assertEquals(body.width, Vec2(1, 2))
     assertEquals(body.mass, 3)
     assertEquals(body.invMass, 1 / 3.0f)
-    assertEquals(body.I, 3 * 5 / 12.0f)
-    assertEquals(body.invI, 12.0f / (3 * 5))
+    assertEquals(body.inertia, 3 * 5 / 12.0f)
+    assertEquals(body.invInertia, 12.0f / (3 * 5))
   }
 
   test("Body#compareTo") {

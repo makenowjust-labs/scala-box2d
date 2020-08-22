@@ -45,14 +45,14 @@ final class Arbiter private (val body1: Body, val body2: Body, var contacts: Ind
       val rn1 = c.r1 dot c.normal
       val rn2 = c.r2 dot c.normal
       val kNormal =
-        body1.invMass + body2.invMass + body1.invI * ((c.r1 dot c.r1) - rn1 * rn1) + body2.invI * ((c.r2 dot c.r2) - rn2 * rn2)
+        body1.invMass + body2.invMass + body1.invInertia * ((c.r1 dot c.r1) - rn1 * rn1) + body2.invInertia * ((c.r2 dot c.r2) - rn2 * rn2)
       c.massNormal = 1.0f / kNormal
 
       val tangent = c.normal cross 1.0f
       val rt1 = c.r1 dot tangent
       val rt2 = c.r2 dot tangent
       val kTangent =
-        body1.invMass + body2.invMass + body1.invI * ((c.r1 dot c.r1) - rt1 * rt1) + body2.invI * ((c.r2 dot c.r2) - rt2 * rt2)
+        body1.invMass + body2.invMass + body1.invInertia * ((c.r1 dot c.r1) - rt1 * rt1) + body2.invInertia * ((c.r2 dot c.r2) - rt2 * rt2)
       c.massTangent = 1.0f / kTangent
 
       c.bias = -biasFactor * invDt * MathUtil.min(0.0f, c.separation + allowedPenetration)
@@ -62,10 +62,10 @@ final class Arbiter private (val body1: Body, val body2: Body, var contacts: Ind
         val P = c.Pn * c.normal + c.Pt * tangent
 
         body1.velocity -= body1.invMass * P
-        body1.angularVelocity -= body1.invI * (c.r1 cross P)
+        body1.angularVelocity -= body1.invInertia * (c.r1 cross P)
 
         body2.velocity += body2.invMass * P
-        body2.angularVelocity += body2.invI * (c.r2 cross P)
+        body2.angularVelocity += body2.invInertia * (c.r2 cross P)
       }
     }
   }
@@ -96,10 +96,10 @@ final class Arbiter private (val body1: Body, val body2: Body, var contacts: Ind
       val Pn = dPn * c.normal
 
       b1.velocity -= b1.invMass * Pn
-      b1.angularVelocity -= b1.invI * (c.r1 cross Pn)
+      b1.angularVelocity -= b1.invInertia * (c.r1 cross Pn)
 
       b2.velocity += b2.invMass * Pn
-      b2.angularVelocity += b2.invI * (c.r2 cross Pn)
+      b2.angularVelocity += b2.invInertia * (c.r2 cross Pn)
 
       // Relative velocity at contact
       dv = b2.velocity + (b2.angularVelocity cross c.r2) - b1.velocity - (b1.angularVelocity cross c.r1)
@@ -125,10 +125,10 @@ final class Arbiter private (val body1: Body, val body2: Body, var contacts: Ind
       val Pt = dPt * tangent
 
       b1.velocity -= b1.invMass * Pt
-      b1.angularVelocity -= b1.invI * (c.r1 cross Pt)
+      b1.angularVelocity -= b1.invInertia * (c.r1 cross Pt)
 
       b2.velocity += b2.invMass * Pt
-      b2.angularVelocity += b2.invI * (c.r2 cross Pt)
+      b2.angularVelocity += b2.invInertia * (c.r2 cross Pt)
     }
   }
 }
@@ -180,7 +180,7 @@ object Arbiter {
       FeaturePair(fp.inEdge2, fp.outEdge2, fp.inEdge1, fp.outEdge1)
   }
 
-  final case class Contact(separation: Float, normal: Vec2, position: Vec2, feature: FeaturePair) {
+  final case class Contact private (separation: Float, normal: Vec2, position: Vec2, feature: FeaturePair) {
     private[box2d] var Pn: Float = 0.0f
     private[box2d] var Pt: Float = 0.0f
 

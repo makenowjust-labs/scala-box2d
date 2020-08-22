@@ -6,7 +6,7 @@ object Demo {
   val iterations = 10
   val gravity: Vec2 = Vec2(0.0f, -10.0f)
 
-  val world = new World(gravity, iterations)
+  val world: World = World(gravity, iterations)
 
   // Single box
   def demo1(): Unit = {

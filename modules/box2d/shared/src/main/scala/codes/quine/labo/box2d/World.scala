@@ -23,7 +23,7 @@ final class World private (var gravity: Vec2, var iterations: Int) {
     _arbiters.clear()
   }
 
-  def broadPhase(): Unit = {
+  private[this] def broadPhase(): Unit = {
     // O(n^2) broad-phase
     for ((bi, i) <- bodies.zipWithIndex) {
       for (bj <- bodies.slice(i + 1, bodies.size); if bi.invMass != 0.0f || bj.invMass != 0.0f) {
@@ -52,7 +52,7 @@ final class World private (var gravity: Vec2, var iterations: Int) {
     // Integrate forces.
     for (b <- bodies; if b.invMass != 0.0f) {
       b.velocity += dt * (gravity + b.invMass * b.force)
-      b.angularVelocity += dt * b.invI * b.torque
+      b.angularVelocity += dt * b.invInertia * b.torque
     }
 
     // Perform pre-steps.

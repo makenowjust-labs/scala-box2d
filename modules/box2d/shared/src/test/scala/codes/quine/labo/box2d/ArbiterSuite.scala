@@ -71,16 +71,14 @@ object ArbiterSuite extends SimpleTestSuite {
     val dt = 60.0f
     val invDt = 1.0f / dt
     arb.preStep(invDt)
-    assert(arb.contacts.nonEmpty && arb.contacts.forall(_.bias != 0.0f))
+    assert(arb.contacts.nonEmpty && arb.contacts.forall(_.bias > 0))
   }
-
 
   test("Arbiter#applyImpluse") {
     val b1 = Body(Vec2(1, 1), 10)
     val b2 = Body(Vec2(1, 1), 10)
     val arb = Arbiter(b1, b2)
-    val dt = 60.0f
-    val invDt = 1.0f / dt
+    val invDt = 60.0f
     arb.preStep(invDt)
     arb.applyImpluse()
     assert(b1.velocity.length > 0)

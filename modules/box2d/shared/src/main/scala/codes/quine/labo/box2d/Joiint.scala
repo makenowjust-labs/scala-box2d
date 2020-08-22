@@ -3,7 +3,6 @@ package codes.quine.labo.box2d
 import MathUtil._
 
 final class Joint private {
-  private[this] var M: Mat22 = Mat22(0.0f, 0.0f, 0.0f, 0.0f)
 
   private[this] var _localAnchor1: Vec2 = Vec2(0.0f, 0.0f)
   private[this] var _localAnchor2: Vec2 = Vec2(0.0f, 0.0f)
@@ -11,11 +10,13 @@ final class Joint private {
   def localAnchor1: Vec2 = _localAnchor1
   def localAnchor2: Vec2 = _localAnchor2
 
-  private[this] var r1: Vec2 = Vec2(0.0f, 0.0f)
-  private[this] var r2: Vec2 = Vec2(0.0f, 0.0f)
+  private[box2d] var M: Mat22 = Mat22(0.0f, 0.0f, 0.0f, 0.0f)
 
-  private[this] var bias: Vec2 = Vec2(0.0f, 0.0f)
-  private[this] val P: Vec2 = Vec2(0.0f, 0.0f)
+  private[box2d] var r1: Vec2 = Vec2(0.0f, 0.0f)
+  private[box2d] var r2: Vec2 = Vec2(0.0f, 0.0f)
+
+  private[box2d] var bias: Vec2 = Vec2(0.0f, 0.0f)
+  private[box2d] val P: Vec2 = Vec2(0.0f, 0.0f)
 
   private[this] var _body1: Body = null
   private[this] var _body2: Body = null
@@ -58,16 +59,16 @@ final class Joint private {
       body1.invMass + body2.invMass
     )
     val K2 = Mat22(
-      body1.invI * r1.y * r1.y,
-      -body1.invI * r1.x * r1.y,
-      -body1.invI * r1.x * r1.y,
-      body1.invI * r1.x * r1.x
+      body1.invInertia * r1.y * r1.y,
+      -body1.invInertia * r1.x * r1.y,
+      -body1.invInertia * r1.x * r1.y,
+      body1.invInertia * r1.x * r1.x
     )
     val K3 = Mat22(
-      body2.invI * r2.y * r2.y,
-      -body2.invI * r2.x * r2.y,
-      -body2.invI * r2.x * r2.y,
-      body2.invI * r2.x * r2.x
+      body2.invInertia * r2.y * r2.y,
+      -body2.invInertia * r2.x * r2.y,
+      -body2.invInertia * r2.x * r2.y,
+      body2.invInertia * r2.x * r2.x
     )
     val K = K1 + K2 + K3
     K.col1.x += softness
@@ -86,10 +87,10 @@ final class Joint private {
 
     if (World.warmStarting) {
       body1.velocity -= body1.invMass * P
-      body1.angularVelocity -= body1.invI * (r1 cross P)
+      body1.angularVelocity -= body1.invInertia * (r1 cross P)
 
       body2.velocity += body2.invMass * P
-      body2.angularVelocity += body2.invI * (r2 cross P)
+      body2.angularVelocity += body2.invInertia * (r2 cross P)
     } else {
       P.set(0.0f, 0.0f)
     }
@@ -100,10 +101,10 @@ final class Joint private {
     val impluse = M * (bias - dv - softness * P)
 
     body1.velocity -= body1.invMass * impluse
-    body1.angularVelocity -= body1.invI * (r1 cross impluse)
+    body1.angularVelocity -= body1.invInertia * (r1 cross impluse)
 
     body2.velocity += body2.invMass * impluse
-    body2.angularVelocity += body2.invI * (r2 cross impluse)
+    body2.angularVelocity += body2.invInertia * (r2 cross impluse)
 
     P += impluse
   }
