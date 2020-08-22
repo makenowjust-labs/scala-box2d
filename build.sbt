@@ -29,7 +29,7 @@ lazy val box2d = crossProject(JVMPlatform, JSPlatform)
   .settings(
     organization := "codes.quine.labo",
     name := "box2d",
-    version := "0.2.0",
+    version := "0.2.1-SNAPSHOT",
     description := "A box2d-lite port in Scala",
     console / initialCommands := """
       |import codes.quine.labo.box2d._
