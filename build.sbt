@@ -47,7 +47,7 @@ lazy val box2d = crossProject(JVMPlatform, JSPlatform)
       "scala-labo-box2d",
       "-doc-version",
       if (version.value.endsWith("-SNAPSHOT"))
-        sys.process.Process("git rev-parse --short HEAD").!!.strip
+        sys.process.Process("git rev-parse --short HEAD").!!.stripLineEnd
       else version.value
     )
   )
