@@ -136,7 +136,7 @@ final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[C
 object Arbiter {
   def apply(b1: Body, b2: Body): Arbiter = {
     val (body1, body2) = if (b1 < b2) (b1, b2) else (b2, b1)
-    val contacts = Collide.collide(body1, body2)
+    val contacts = Collide.detect(body1, body2)
     new Arbiter(body1, body2, contacts)
   }
 

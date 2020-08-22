@@ -16,20 +16,20 @@ object Collide {
   //   v3 ------ v4
   //        e3
 
-  sealed abstract class Axis
-  case object FACE_A_X extends Axis
-  case object FACE_A_Y extends Axis
-  case object FACE_B_X extends Axis
-  case object FACE_B_Y extends Axis
+  private sealed abstract class Axis
+  private case object FACE_A_X extends Axis
+  private case object FACE_A_Y extends Axis
+  private case object FACE_B_X extends Axis
+  private case object FACE_B_Y extends Axis
 
-  final case class ClipVertex(v: Vec2, fp: FeaturePair)
+  private final case class ClipVertex(v: Vec2, fp: FeaturePair)
 
-  object ClipVertex {
+  private object ClipVertex {
     def apply(v: Vec2, i2: EdgeNumber, o2: EdgeNumber): ClipVertex =
       ClipVertex(v, FeaturePair(NO_EDGE, NO_EDGE, i2, o2))
   }
 
-  def clipSegmentToLine(
+  private[this] def clipSegmentToLine(
       vIn: IndexedSeq[ClipVertex],
       normal: Vec2,
       offset: Float,
@@ -59,7 +59,7 @@ object Collide {
     vOut.result()
   }
 
-  def computeIncidentEdge(h: Vec2, pos: Vec2, rot: Mat22, normal: Vec2): IndexedSeq[ClipVertex] = {
+  private[this] def computeIncidentEdge(h: Vec2, pos: Vec2, rot: Mat22, normal: Vec2): IndexedSeq[ClipVertex] = {
     // The normal is from the reference box. Convert it
     // to the incident boxe's frame and flip sign.
     val rotT = rot.transpose
@@ -81,7 +81,7 @@ object Collide {
   }
 
   // The normal points from A to B
-  def collide(bodyA: Body, bodyB: Body): IndexedSeq[Contact] = {
+  def detect(bodyA: Body, bodyB: Body): IndexedSeq[Contact] = {
     // Setup
     val hA = 0.5f * bodyA.width
     val hB = 0.5f * bodyB.width
@@ -91,8 +91,8 @@ object Collide {
 
     val rotA = Mat22.rotation(bodyA.rotation)
     val rotB = Mat22.rotation(bodyB.rotation)
-    val rotAT = rotA.transpose
-    val rotBT = rotB.transpose
+    val rotAT = rotA.transpose // == rotA.inverse (because of orthogonal matrix)
+    val rotBT = rotB.transpose // == rotB.inverse
 
     val dp = posB - posA
     val dA = rotAT * dp
