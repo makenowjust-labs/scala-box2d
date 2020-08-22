@@ -16,41 +16,11 @@ object Vec2Suite extends SimpleTestSuite {
     assertEquals(y, 2)
   }
 
-  test("Vec2#set") {
-    val v = Vec2(1, 2)
-    v.set(3, 4)
-    assertEquals(v.x, 3)
-    assertEquals(v.y, 4)
-  }
-
   test("Vec2#unary_-") {
     val v1 = Vec2(1, 2)
     val v2 = -v1
     assertEquals(v2.x, -1)
     assertEquals(v2.y, -2)
-  }
-
-  test("Vec2#+=") {
-    val v1 = Vec2(1, 2)
-    val v2 = Vec2(3, 4)
-    v1 += v2
-    assertEquals(v1.x, 4)
-    assertEquals(v1.y, 6)
-  }
-
-  test("Vec2#-=") {
-    val v1 = Vec2(1, 2)
-    val v2 = Vec2(3, 4)
-    v1 -= v2
-    assertEquals(v1.x, -2)
-    assertEquals(v1.y, -2)
-  }
-
-  test("Vec2#*=") {
-    val v = Vec2(1, 2)
-    v *= 2
-    assertEquals(v.x, 2)
-    assertEquals(v.y, 4)
   }
 
   test("Vec2#length") {
@@ -88,7 +58,6 @@ object Vec2Suite extends SimpleTestSuite {
     val v2 = Vec2(1, 2)
     val v3 = Vec2(3, 4)
     assert(v1 == v2)
-    assert(v1 != 1)
     assert(v1 != v3)
   }
 

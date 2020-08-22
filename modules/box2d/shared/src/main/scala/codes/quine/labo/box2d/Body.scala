@@ -28,15 +28,15 @@ final class Body private extends Ordered[Body] {
   }
 
   def set(w: Vec2, m: Float): Unit = {
-    position.set(0.0f, 0.0f)
+    position = Vec2(0.0f, 0.0f)
     rotation = 0.0f
-    velocity.set(0.0f, 0.0f)
+    velocity = Vec2(0.0f, 0.0f)
     angularVelocity = 0.0f
-    force.set(0.0f, 0.0f)
+    force = Vec2(0.0f, 0.0f)
     torque = 0.0f
     friction = 0.2f
 
-    _width.set(w.x, w.y)
+    _width = w
     _mass = m
 
     if (mass < Float.MaxValue) {
@@ -63,7 +63,7 @@ object Body {
   ): Body = {
     val body = new Body
     body.set(width, mass)
-    body.position.set(position.x, position.y)
+    body.position = position
     body.rotation = rotation
     body.friction = friction
     body

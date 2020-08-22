@@ -33,11 +33,11 @@ object BodySuite extends SimpleTestSuite {
 
   test("Body#set") {
     val body = Body()
-    body.position.set(0, 1)
+    body.position = Vec2(0, 1)
     body.rotation = 3
-    body.velocity.set(4, 5)
+    body.velocity = Vec2(4, 5)
     body.angularVelocity = 6
-    body.force.set(7, 8)
+    body.force = Vec2(7, 8)
     body.torque = 9
     body.friction = 10
 

@@ -70,7 +70,7 @@ final class World private (var gravity: Vec2, var iterations: Int) {
       b.position += dt * b.velocity
       b.rotation += dt * b.angularVelocity
 
-      b.force.set(0.0f, 0.0f)
+      b.force = Vec2(0.0f, 0.0f)
       b.torque = 0.0f
     }
   }

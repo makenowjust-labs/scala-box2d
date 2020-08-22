@@ -16,7 +16,7 @@ final class Joint private {
   private[box2d] var r2: Vec2 = Vec2(0.0f, 0.0f)
 
   private[box2d] var bias: Vec2 = Vec2(0.0f, 0.0f)
-  private[box2d] val P: Vec2 = Vec2(0.0f, 0.0f)
+  private[box2d] var P: Vec2 = Vec2(0.0f, 0.0f)
 
   private[this] var _body1: Body = null
   private[this] var _body2: Body = null
@@ -39,7 +39,7 @@ final class Joint private {
     _localAnchor1 = rot1T * (anchor - body1.position)
     _localAnchor2 = rot2T * (anchor - body2.position)
 
-    P.set(0.0f, 0.0f)
+    P = Vec2(0.0f, 0.0f)
 
     biasFactor = 0.2f
     softness = 0.0f
@@ -70,9 +70,7 @@ final class Joint private {
       -body2.invInertia * r2.x * r2.y,
       body2.invInertia * r2.x * r2.x
     )
-    val K = K1 + K2 + K3
-    K.col1.x += softness
-    K.col2.y += softness
+    val K = K1 + K2 + K3 + Mat22(softness, 0, 0, softness)
     M = K.invert
 
     val p1 = body1.position + r1
@@ -82,7 +80,7 @@ final class Joint private {
     if (World.positionCorrection) {
       bias = -biasFactor * invDt * dp
     } else {
-      bias.set(0.0f, 0.0f)
+      bias = Vec2(0.0f, 0.0f)
     }
 
     if (World.warmStarting) {
@@ -92,7 +90,7 @@ final class Joint private {
       body2.velocity += body2.invMass * P
       body2.angularVelocity += body2.invInertia * (r2 cross P)
     } else {
-      P.set(0.0f, 0.0f)
+      P = Vec2(0.0f, 0.0f)
     }
   }
 

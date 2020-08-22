@@ -80,7 +80,6 @@ object Collide {
     IndexedSeq(c1.copy(v = pos + rot * c1.v), c2.copy(v = pos + rot * c2.v))
   }
 
-  // The normal points from A to B
   def detect(bodyA: Body, bodyB: Body): IndexedSeq[Contact] = {
     // Setup
     val hA = 0.5f * bodyA.width

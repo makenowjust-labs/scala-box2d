@@ -73,10 +73,10 @@ object Demo {
     val floor = Body(Vec2(100.0f, 20.0f), Float.MaxValue, Vec2(0.0f, -10.0f))
     world.add(floor)
 
-    val x = Vec2(-6.0f, 0.75f)
+    var x = Vec2(-6.0f, 0.75f)
 
     for (i <- 0 until 12) {
-      val y = Vec2(x.x, x.y)
+      var y = Vec2(x.x, x.y)
       for (_ <- i until 12) {
         val box = Body(Vec2(1.0f, 1.0f), 1.0f, y)
         world.add(box)
