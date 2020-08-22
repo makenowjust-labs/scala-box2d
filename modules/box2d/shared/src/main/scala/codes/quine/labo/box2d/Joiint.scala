@@ -2,35 +2,41 @@ package codes.quine.labo.box2d
 
 import MathUtil._
 
-final class Joint {
-  var M: Mat22 = Mat22(0.0f, 0.0f, 0.0f, 0.0f)
+final class Joint private {
+  private[this] var M: Mat22 = Mat22(0.0f, 0.0f, 0.0f, 0.0f)
 
-  var localAnchor1: Vec2 = Vec2(0.0f, 0.0f)
-  var localAnchor2: Vec2 = Vec2(0.0f, 0.0f)
+  private[this] var _localAnchor1: Vec2 = Vec2(0.0f, 0.0f)
+  private[this] var _localAnchor2: Vec2 = Vec2(0.0f, 0.0f)
 
-  var r1: Vec2 = Vec2(0.0f, 0.0f)
-  var r2: Vec2 = Vec2(0.0f, 0.0f)
+  def localAnchor1: Vec2 = _localAnchor1
+  def localAnchor2: Vec2 = _localAnchor2
 
-  var bias: Vec2 = Vec2(0.0f, 0.0f)
-  val P: Vec2 = Vec2(0.0f, 0.0f)
+  private[this] var r1: Vec2 = Vec2(0.0f, 0.0f)
+  private[this] var r2: Vec2 = Vec2(0.0f, 0.0f)
 
-  var body1: Body = null
-  var body2: Body = null
+  private[this] var bias: Vec2 = Vec2(0.0f, 0.0f)
+  private[this] val P: Vec2 = Vec2(0.0f, 0.0f)
+
+  private[this] var _body1: Body = null
+  private[this] var _body2: Body = null
+
+  def body1: Body = _body1
+  def body2: Body = _body2
 
   var biasFactor: Float = 0.2f
   var softness: Float = 0.0f
 
   def set(body1: Body, body2: Body, anchor: Vec2): Unit = {
-    this.body1 = body1
-    this.body2 = body2
+    _body1 = body1
+    _body2 = body2
 
     val rot1 = Mat22.rotation(body1.rotation)
     val rot2 = Mat22.rotation(body2.rotation)
     val rot1T = rot1.transpose
     val rot2T = rot2.transpose
 
-    localAnchor1 = rot1T * (anchor - body1.position)
-    localAnchor2 = rot2T * (anchor - body2.position)
+    _localAnchor1 = rot1T * (anchor - body1.position)
+    _localAnchor2 = rot2T * (anchor - body2.position)
 
     P.set(0.0f, 0.0f)
 
@@ -39,8 +45,6 @@ final class Joint {
   }
 
   def preStep(invDt: Float): Unit = {
-    require(body1 != null && body2 != null)
-
     val rot1 = Mat22.rotation(body1.rotation)
     val rot2 = Mat22.rotation(body2.rotation)
 
@@ -102,5 +106,15 @@ final class Joint {
     body2.angularVelocity += body2.invI * (r2 cross impluse)
 
     P += impluse
+  }
+}
+
+object Joint {
+  def apply(body1: Body, body2: Body, anchor: Vec2, softness: Float = 0.0f, biasFactor: Float = 0.2f): Joint = {
+    val joint = new Joint
+    joint.set(body1, body2, anchor)
+    joint.softness = softness
+    joint.biasFactor = biasFactor
+    joint
   }
 }

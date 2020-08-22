@@ -14,7 +14,7 @@ object BodySuite extends SimpleTestSuite {
   }
 
   test("new Body") {
-    val body = new Body
+    val body = Body()
     assertInitialBody(body)
     assertEquals(body.width, Vec2(1, 1))
     assertEquals(body.mass, Float.MaxValue)
@@ -24,7 +24,7 @@ object BodySuite extends SimpleTestSuite {
   }
 
   test("Body#addForce") {
-    val body = new Body
+    val body = Body()
     body.addForce(Vec2(1, 2))
     assertEquals(body.force, Vec2(1, 2))
     body.addForce(Vec2(3, 4))
@@ -32,7 +32,7 @@ object BodySuite extends SimpleTestSuite {
   }
 
   test("Body#set") {
-    val body = new Body
+    val body = Body()
     body.position.set(0, 1)
     body.rotation = 3
     body.velocity.set(4, 5)
@@ -58,8 +58,8 @@ object BodySuite extends SimpleTestSuite {
   }
 
   test("Body#compareTo") {
-    val body1 = new Body
-    val body2 = new Body
+    val body1 = Body()
+    val body2 = Body()
     val hash1 = System.identityHashCode(body1)
     val hash2 = System.identityHashCode(body2)
     assertEquals(body1.compareTo(body2), hash1.compareTo(hash2))

@@ -7,7 +7,7 @@ import Arbiter._
 import MathUtil.FloatOps
 
 final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[Contact]) {
-  val friction: Float = MathUtil.sqrt(body1.friction * body2.friction)
+  private[this] val friction: Float = MathUtil.sqrt(body1.friction * body2.friction)
 
   def update(newContacts: IndexedSeq[Contact]): Unit = {
     val mergedContacts = mutable.Buffer.empty[Contact]
@@ -181,23 +181,18 @@ object Arbiter {
   }
 
   final case class Contact(separation: Float, normal: Vec2, position: Vec2, feature: FeaturePair) {
-    var Pn: Float = 0.0f
-    var Pt: Float = 0.0f
+    private[Arbiter] var Pn: Float = 0.0f
+    private[Arbiter] var Pt: Float = 0.0f
 
-    var r1: Vec2 = Vec2(0.0f, 0.0f)
-    var r2: Vec2 = Vec2(0.0f, 0.0f)
+    private[Arbiter] var r1: Vec2 = Vec2(0.0f, 0.0f)
+    private[Arbiter] var r2: Vec2 = Vec2(0.0f, 0.0f)
 
-    var massNormal: Float = 0.0f
-    var massTangent: Float = 0.0f
-    var bias: Float = 0.0f
+    private[Arbiter] var massNormal: Float = 0.0f
+    private[Arbiter] var massTangent: Float = 0.0f
+    private[Arbiter] var bias: Float = 0.0f
   }
 
-  final case class ArbiterKey(val body1: Body, val body2: Body) {
-    def <(that: ArbiterKey): Boolean =
-      if (body1 < that.body1) true
-      else if (body1 == that.body1 && body2 < that.body2) true
-      else false
-  }
+  final case class ArbiterKey private (val body1: Body, val body2: Body)
 
   object ArbiterKey {
     def apply(b1: Body, b2: Body): ArbiterKey =
