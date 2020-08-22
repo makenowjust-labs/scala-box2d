@@ -55,8 +55,15 @@ final class Body private extends Ordered[Body] {
 }
 
 object Body {
+
   /** Constructs a right body with the given parameters. */
-  def apply(width: Vec2 = Vec2(1.0f, 1.0f), mass: Float = Float.MaxValue, position: Vec2 = Vec2(0.0f, 0.0f), rotation: Float = 0.0f, friction: Float = 0.2f): Body = {
+  def apply(
+      width: Vec2 = Vec2(1.0f, 1.0f),
+      mass: Float = Float.MaxValue,
+      position: Vec2 = Vec2(0.0f, 0.0f),
+      rotation: Float = 0.0f,
+      friction: Float = 0.2f
+  ): Body = {
     val body = new Body
     body.set(width, mass)
     body.position = position

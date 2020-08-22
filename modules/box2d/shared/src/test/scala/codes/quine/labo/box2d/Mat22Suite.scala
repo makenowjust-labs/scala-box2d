@@ -44,7 +44,6 @@ object Mat22Suite extends SimpleTestSuite {
     val m2 = Mat22(1, 2, 3, 4)
     val m3 = Mat22(3, 4, 5, 6)
     assert(m1 == m2)
-    assert(m1 != 1)
     assert(m1 != m3)
   }
 

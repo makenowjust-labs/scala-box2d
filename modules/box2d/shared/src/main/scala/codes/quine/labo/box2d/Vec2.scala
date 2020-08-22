@@ -2,6 +2,7 @@ package codes.quine.labo.box2d
 
 /** Vec2 is a 2D vector. */
 final case class Vec2(x: Float, y: Float) {
+
   /** Calculates negation of this vector. */
   def unary_- : Vec2 = new Vec2(-x, -y)
 

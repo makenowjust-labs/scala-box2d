@@ -13,13 +13,16 @@ final class World private (var gravity: Vec2, var iterations: Int) {
 
   /** A list of rigid bodies on this world. */
   def bodies: Seq[Body] = _bodies.toSeq
+
   /** A list of joints on this world. */
   def joints: Seq[Joint] = _joints.toSeq
+
   /** A map from bodies pair to arbiters working on this world and the bodies. */
   def arbiters: Map[ArbiterKey, Arbiter] = _arbiters.toMap
 
   /** Adds the given rigid body to this world. */
   def add(body: Body): Unit = _bodies.append(body)
+
   /** Adds the given joint to this world. */
   def add(joint: Joint): Unit = _joints.append(joint)
 

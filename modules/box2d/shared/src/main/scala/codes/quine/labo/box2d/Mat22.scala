@@ -11,6 +11,7 @@ package codes.quine.labo.box2d
   * }}}
   */
 final case class Mat22(col1: Vec2, col2: Vec2) {
+
   /** Calculates transpose of this matrix. */
   def transpose: Mat22 = Mat22(Vec2(col1.x, col2.x), Vec2(col1.y, col2.y))
 
@@ -39,6 +40,7 @@ final case class Mat22(col1: Vec2, col2: Vec2) {
 }
 
 object Mat22 {
+
   /**
     * Constructs Mat22 value with human-readable syntax.
     *

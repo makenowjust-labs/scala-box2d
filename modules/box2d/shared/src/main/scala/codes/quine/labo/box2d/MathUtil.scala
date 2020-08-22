@@ -4,11 +4,13 @@ import scala.util.Random
 
 /** MathUtil looks similar to [[java.lang.Math Math]], but it is specialized for [[scala.Float Float]]. */
 object MathUtil {
+
   /** PI is 3.14... */
   final val PI: Float = 3.14159265358979323846264f
 
   /** FloatOps enhances Float with Vec2 operations. */
   implicit final class FloatOps(private val a: Float) extends AnyVal {
+
     /** Calculates cross product between `a` and `v`. */
     def cross(v: Vec2): Vec2 = Vec2(-a * v.y, a * v.x)
 

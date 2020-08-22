@@ -109,6 +109,7 @@ final class Joint private {
 }
 
 object Joint {
+
   /** Constructs a joint with the given parameters. */
   def apply(body1: Body, body2: Body, anchor: Vec2, softness: Float = 0.0f, biasFactor: Float = 0.2f): Joint = {
     val joint = new Joint
