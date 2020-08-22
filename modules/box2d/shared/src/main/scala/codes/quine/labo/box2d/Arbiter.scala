@@ -6,7 +6,7 @@ import scala.collection.mutable
 import Arbiter._
 import MathUtil.FloatOps
 
-final class Arbiter(val body1: Body, val body2: Body, var contacts: IndexedSeq[Contact]) {
+final class Arbiter private (val body1: Body, val body2: Body, var contacts: IndexedSeq[Contact]) {
   private[this] val friction: Float = MathUtil.sqrt(body1.friction * body2.friction)
 
   def update(newContacts: IndexedSeq[Contact]): Unit = {
@@ -181,15 +181,15 @@ object Arbiter {
   }
 
   final case class Contact(separation: Float, normal: Vec2, position: Vec2, feature: FeaturePair) {
-    private[Arbiter] var Pn: Float = 0.0f
-    private[Arbiter] var Pt: Float = 0.0f
+    private[box2d] var Pn: Float = 0.0f
+    private[box2d] var Pt: Float = 0.0f
 
-    private[Arbiter] var r1: Vec2 = Vec2(0.0f, 0.0f)
-    private[Arbiter] var r2: Vec2 = Vec2(0.0f, 0.0f)
+    private[box2d] var r1: Vec2 = Vec2(0.0f, 0.0f)
+    private[box2d] var r2: Vec2 = Vec2(0.0f, 0.0f)
 
-    private[Arbiter] var massNormal: Float = 0.0f
-    private[Arbiter] var massTangent: Float = 0.0f
-    private[Arbiter] var bias: Float = 0.0f
+    private[box2d] var massNormal: Float = 0.0f
+    private[box2d] var massTangent: Float = 0.0f
+    private[box2d] var bias: Float = 0.0f
   }
 
   final case class ArbiterKey private (val body1: Body, val body2: Body)

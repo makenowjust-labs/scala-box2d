@@ -5,19 +5,22 @@ import scala.collection.mutable
 import Arbiter._
 import MathUtil.FloatOps
 
-final case class World(val gravity: Vec2, val iterations: Int) {
-  val bodies: mutable.Buffer[Body] = mutable.Buffer.empty
-  val joints: mutable.Buffer[Joint] = mutable.Buffer.empty
-  val arbiters: mutable.Map[ArbiterKey, Arbiter] = mutable.Map.empty
+final class World private (var gravity: Vec2, var iterations: Int) {
+  private val _bodies: mutable.Buffer[Body] = mutable.Buffer.empty
+  private val _joints: mutable.Buffer[Joint] = mutable.Buffer.empty
+  private val _arbiters: mutable.Map[ArbiterKey, Arbiter] = mutable.Map.empty
 
-  def add(body: Body): Unit = bodies.append(body)
+  def bodies: Seq[Body] = _bodies.toSeq
+  def joints: Seq[Joint] = _joints.toSeq
+  def arbiters: Map[ArbiterKey, Arbiter] = _arbiters.toMap
 
-  def add(joint: Joint): Unit = joints.append(joint)
+  def add(body: Body): Unit = _bodies.append(body)
+  def add(joint: Joint): Unit = _joints.append(joint)
 
   def clear(): Unit = {
-    bodies.clear()
-    joints.clear()
-    arbiters.clear()
+    _bodies.clear()
+    _joints.clear()
+    _arbiters.clear()
   }
 
   def broadPhase(): Unit = {
@@ -29,12 +32,12 @@ final case class World(val gravity: Vec2, val iterations: Int) {
 
         if (newArb.contacts.nonEmpty) {
           if (arbiters.contains(key)) {
-            arbiters(key).update(newArb.contacts)
+            _arbiters(key).update(newArb.contacts)
           } else {
-            arbiters(key) = newArb
+            _arbiters(key) = newArb
           }
         } else {
-          arbiters.remove(key)
+          _arbiters.remove(key)
         }
       }
     }
@@ -74,6 +77,9 @@ final case class World(val gravity: Vec2, val iterations: Int) {
 }
 
 object World {
+  def apply(gravity: Vec2 = Vec2(0.0f, -10.0f), iterations: Int = 10): World =
+    new World(gravity, iterations)
+
   var accumulateImpulses: Boolean = true
   var positionCorrection: Boolean = true
   var warmStarting: Boolean = true
