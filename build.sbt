@@ -48,8 +48,7 @@ lazy val box2d = crossProject(JVMPlatform, JSPlatform)
       "-doc-version",
       if (version.value.endsWith("-SNAPSHOT"))
         sys.process.Process("git rev-parse --short HEAD").!!.strip
-      else version.value,
-      "–doc-source-url",
+      else version.value
     )
   )
   .jvmSettings(
