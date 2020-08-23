@@ -81,7 +81,7 @@ lazy val box2dDemo = crossProject(JVMPlatform, JSPlatform)
   .jsSettings(
     scalaJSUseMainModuleInitializer := true,
     // Dependencies on JS:
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.0.0"
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.1.0"
   )
   .dependsOn(box2d)
 
