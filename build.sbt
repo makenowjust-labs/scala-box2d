@@ -1,7 +1,7 @@
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / githubOwner := "MakeNowJust-Labo"
-ThisBuild / githubRepository := "scala-labo-box2d"
+ThisBuild / githubRepository := "scala-box2d"
 
 ThisBuild / scalaVersion := "2.13.3"
 ThisBuild / scalacOptions ++= Seq(
@@ -44,7 +44,7 @@ lazy val box2d = crossProject(JVMPlatform, JSPlatform)
       .toMap,
     Compile / doc / scalacOptions ++= Seq(
       "-doc-title",
-      "scala-labo-box2d",
+      "scala-box2d",
       "-doc-version",
       if (version.value.endsWith("-SNAPSHOT"))
         sys.process.Process("git rev-parse --short HEAD").!!.stripLineEnd

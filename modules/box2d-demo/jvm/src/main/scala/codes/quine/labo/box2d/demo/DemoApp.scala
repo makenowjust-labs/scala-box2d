@@ -139,7 +139,7 @@ object DemoApp extends JFXApp {
   demo1()
 
   stage = new PrimaryStage {
-    title = "scala-labo-box2d demo"
+    title = "scala-box2d demo"
     scene = new Scene(width.toDouble, height.toDouble) {
       content = new HBox {
         children = Seq(
@@ -147,7 +147,7 @@ object DemoApp extends JFXApp {
             maxWidth = 280
             fillWidth = true
             children = Seq(
-              new Text("scala-labo-box2d demo"),
+              new Text("scala-box2d demo"),
               combobox,
               accumulateImpulses,
               positionCorrection,

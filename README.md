@@ -1,8 +1,8 @@
-# scala-labo-box2d
+# scala-box2d
 
 > A Scala port of [box2d-lite](https://github.com/erincatto/box2d-lite).
 
-[![demo](https://github.com/MakeNowJust-Labo/scala-labo-box2d/wiki/image/demo.gif)](https://makenowjust-labo.github.io/scala-labo-box2d/)
+[![demo](https://github.com/MakeNowJust-Labo/scala-box2d/wiki/image/demo.gif)](https://makenowjust-labo.github.io/scala-box2d/)
 
 ## License
 
