@@ -8,6 +8,6 @@
 
 (The original box2d-lite license is [MIT](https://github.com/erincatto/box2d-lite/blob/master/LICENSE).)
 
-[CC-0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+MIT License.
 
 2020 (C) TSUYUSATO "MakeNowJust" Kitsune
