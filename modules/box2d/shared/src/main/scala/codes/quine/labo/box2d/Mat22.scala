@@ -1,7 +1,6 @@
 package codes.quine.labo.box2d
 
-/**
-  * Mat22 is a 2x2 matrix.
+/** Mat22 is a 2x2 matrix.
   *
   * Note that this matrix value is viewd as the following:
   *
@@ -41,8 +40,7 @@ final case class Mat22(col1: Vec2, col2: Vec2) {
 
 object Mat22 {
 
-  /**
-    * Constructs Mat22 value with human-readable syntax.
+  /** Constructs Mat22 value with human-readable syntax.
     *
     * `Mat22(a, b, c, d)` is viewed as the following:
     *
