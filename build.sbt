@@ -75,7 +75,7 @@ lazy val box2dDemo = crossProject(JVMPlatform, JSPlatform)
   .jvmSettings(
     run / fork := true,
     // Dependencies on JVM:
-    libraryDependencies += "org.scalafx" %% "scalafx" % "15.0.1-R20",
+    libraryDependencies += "org.scalafx" %% "scalafx" % "15.0.1-R21",
     libraryDependencies ++= javaFXModules.map(m => "org.openjfx" % s"javafx-$m" % "16-ea+5" classifier osName)
   )
   .jsSettings(
