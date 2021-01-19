@@ -1,6 +1,6 @@
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 addSbtPlugin("com.github.sbt" % "sbt-jacoco" % "3.3.0")
 addSbtPlugin("com.codecommit" % "sbt-github-packages" % "0.5.2")
-addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.24")
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.4.0")
+addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.25")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.3.1")
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
