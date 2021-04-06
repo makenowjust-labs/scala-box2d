@@ -53,12 +53,12 @@ lazy val box2d = crossProject(JVMPlatform, JSPlatform)
   )
   .jvmSettings(
     // Settings for test on JVM:
-    libraryDependencies += "io.monix" %% "minitest" % "2.9.3" % Test,
+    libraryDependencies += "io.monix" %% "minitest" % "2.9.4" % Test,
     testFrameworks += new TestFramework("minitest.runner.Framework")
   )
   .jsSettings(
     // Settings for test on JS:
-    libraryDependencies += "io.monix" %%% "minitest" % "2.9.3" % Test,
+    libraryDependencies += "io.monix" %%% "minitest" % "2.9.4" % Test,
     testFrameworks += new TestFramework("minitest.runner.Framework")
   )
 
@@ -76,7 +76,7 @@ lazy val box2dDemo = crossProject(JVMPlatform, JSPlatform)
     run / fork := true,
     // Dependencies on JVM:
     libraryDependencies += "org.scalafx" %% "scalafx" % "15.0.1-R21",
-    libraryDependencies ++= javaFXModules.map(m => "org.openjfx" % s"javafx-$m" % "17-ea+5" classifier osName)
+    libraryDependencies ++= javaFXModules.map(m => "org.openjfx" % s"javafx-$m" % "17-ea+6" classifier osName)
   )
   .jsSettings(
     scalaJSUseMainModuleInitializer := true,
