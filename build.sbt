@@ -53,12 +53,12 @@ lazy val box2d = crossProject(JVMPlatform, JSPlatform)
   )
   .jvmSettings(
     // Settings for test on JVM:
-    libraryDependencies += "io.monix" %% "minitest" % "2.9.5" % Test,
+    libraryDependencies += "io.monix" %% "minitest" % "2.9.6" % Test,
     testFrameworks += new TestFramework("minitest.runner.Framework")
   )
   .jsSettings(
     // Settings for test on JS:
-    libraryDependencies += "io.monix" %%% "minitest" % "2.9.5" % Test,
+    libraryDependencies += "io.monix" %%% "minitest" % "2.9.6" % Test,
     testFrameworks += new TestFramework("minitest.runner.Framework")
   )
 
